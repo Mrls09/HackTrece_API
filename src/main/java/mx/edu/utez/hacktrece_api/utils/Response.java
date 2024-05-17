@@ -1,8 +1,17 @@
 package mx.edu.utez.hacktrece_api.utils;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public class Response<T> {
-    T data;
-    double status;
-    String message;
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+public class Response <T>{
+    private T data;
+    private boolean error;
+    private int status;
+    private String message;
 }
+
