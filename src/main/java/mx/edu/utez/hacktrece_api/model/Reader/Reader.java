@@ -8,6 +8,7 @@ import lombok.Setter;
 import mx.edu.utez.hacktrece_api.model.ElectronicDevice.ElectronicDevice;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -20,10 +21,11 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Reader {
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "VARCHAR(255)")
-    private UUID id;
+    @GeneratedValue(generator = "uuid")
+    @UuidGenerator
+    @Column(name = "id")
+    private String id;
+    private String hardware_id;
     @CreationTimestamp
     private Timestamp created_at;
 
