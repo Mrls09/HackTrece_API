@@ -1,5 +1,6 @@
 package mx.edu.utez.hacktrece_api.model.Reader;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -17,6 +18,7 @@ import mx.edu.utez.hacktrece_api.model.Building.Building;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReaderTotal extends Reader {
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "building_id", referencedColumnName = "id")
     private Building building;
