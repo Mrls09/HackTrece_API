@@ -47,4 +47,11 @@ public class ConsumptionDataController {
                 HttpStatus.OK
         );
     }
+    @GetMapping("/month-devices/{uidBuilding}")
+    public ResponseEntity<Response<List<Object[]>>> getTotalConsumptionByCurrentMonthAndBuilding(@PathVariable("uidBuilding") String uidBuilding){
+        return new ResponseEntity<>(
+                this.service.getTotalConsumptionByCurrentMonthAndBuilding(uidBuilding),
+                HttpStatus.OK
+        );
+    }
 }

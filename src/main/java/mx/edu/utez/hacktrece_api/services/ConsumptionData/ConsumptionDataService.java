@@ -58,5 +58,14 @@ public class ConsumptionDataService {
                 "OK"
         );
     }
+    public Response<List<Object[]>> getTotalConsumptionByCurrentMonthAndBuilding(String buildingId) {
+        List<Object[]> totalConsumptionList = repository.findTotalConsumptionByCurrentMonthAndBuilding(buildingId);
+        return new Response<>(
+                totalConsumptionList,
+                false,
+                200,
+                "OK"
+        );
+    }
 
 }

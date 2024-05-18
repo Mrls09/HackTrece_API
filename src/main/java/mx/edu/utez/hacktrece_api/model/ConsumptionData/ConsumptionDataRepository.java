@@ -48,10 +48,30 @@ public interface ConsumptionDataRepository extends JpaRepository<ConsumptionData
             "GROUP BY YEAR(timestamp), MONTH(timestamp) " +
             "ORDER BY year, month", nativeQuery = true)
     List<Object[]> findMonthlyConsumptionByBuilding(@Param("buildingId") String buildingId);
+
     @Query(value = "SELECT MONTH(timestamp) AS month, SUM(consumption_value) AS totalConsumption " +
             "FROM consumption_data " +
             "WHERE building_id = :buildingId AND YEAR(timestamp) = :year " +
             "GROUP BY MONTH(timestamp) " +
             "ORDER BY month", nativeQuery = true)
     List<Object[]> findMonthlyConsumptionByBuildingAndYear(@Param("buildingId") String buildingId, @Param("year") int year);
+
+    @Query("SELECT SUM(cd.consumptionValue) FROM ConsumptionData cd WHERE cd.building.id = :buildingId AND MONTH(cd.timestamp) = :month AND YEAR(cd.timestamp) = :year")
+    Double findTotalConsumptionByBuildingAndMonth(@Param("buildingId") String buildingId, @Param("month") int month, @Param("year") int year);
+
+    @Query("SELECT MONTH(cd.timestamp) as month, SUM(cd.consumptionValue) as totalConsumption " +
+            "FROM ConsumptionData cd " +
+            "WHERE cd.building.id = :buildingId AND YEAR(cd.timestamp) = :year " +
+            "GROUP BY MONTH(cd.timestamp) " +
+            "ORDER BY MONTH(cd.timestamp)")
+    List<Object[]> findTotalConsumptionByBuildingAndYear(@Param("buildingId") String buildingId, @Param("year") int year);
+
+    @Query("SELECT c.device.id, SUM(c.consumptionValue) " +
+            "FROM ConsumptionData c " +
+            "WHERE FUNCTION('MONTH', c.timestamp) = FUNCTION('MONTH', CURRENT_DATE) " +
+            "AND FUNCTION('YEAR', c.timestamp) = FUNCTION('YEAR', CURRENT_DATE) " +
+            "AND c.device.building.id = :buildingId " +
+            "GROUP BY c.device.id")
+    List<Object[]> findTotalConsumptionByCurrentMonthAndBuilding(@Param("buildingId") String buildingId);
+
 }

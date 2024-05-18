@@ -36,6 +36,7 @@ public class ElectronicDeviceServices {
                 "Done!"
         );
     }
+
     @Transactional(rollbackFor = {SQLException.class})
     public Response<String> changeStatus(String uid){
         Optional<ElectronicDevice> exist = this.repository.findById(uid);
