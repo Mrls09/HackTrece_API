@@ -30,6 +30,8 @@ public class ElectronicDevice {
     private String name;
     @Column()
     private String type;
+    @Column(nullable = false)
+    private Boolean status;
     private double consumption;
     @CreationTimestamp
     private Timestamp created_at;

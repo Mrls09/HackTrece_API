@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/building")
+@RequestMapping("${apiPrefix}/building")
 @CrossOrigin(value = {"*"})
 public class BuildingController {
     @Autowired
@@ -23,6 +23,13 @@ public class BuildingController {
     public ResponseEntity<Response<List<Building>>> getAllBuildings() {
         return new ResponseEntity<>(
                 this.services.getAllBuildings(),
+                HttpStatus.OK
+        );
+    }
+    @GetMapping("/{uid}")
+    public ResponseEntity<Response<Building>> getOne(@PathVariable("uid") String uid){
+        return new ResponseEntity<>(
+                this.services.getOne(uid),
                 HttpStatus.OK
         );
     }

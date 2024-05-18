@@ -2,6 +2,7 @@ package mx.edu.utez.hacktrece_api.services.Building;
 
 import mx.edu.utez.hacktrece_api.model.Building.Building;
 import mx.edu.utez.hacktrece_api.model.Building.BuildingRepository;
+import mx.edu.utez.hacktrece_api.model.ConsumptionData.ConsumptionDataRepository;
 import mx.edu.utez.hacktrece_api.model.Reader.ReaderTotal;
 import mx.edu.utez.hacktrece_api.services.Reader.ReaderServices;
 import mx.edu.utez.hacktrece_api.utils.Response;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,6 +22,8 @@ public class BuildingServices {
     private BuildingRepository buildingRepository;
     @Autowired
     private ReaderServices readerServices;
+    @Autowired
+    private ConsumptionDataRepository consumptionDataRepository;
 
     @Transactional(readOnly = true)
     public Response<List<Building>> getAllBuildings() {
@@ -27,6 +32,36 @@ public class BuildingServices {
                 false,
                 200,
                 "OK"
+        );
+    }
+    @Transactional(rollbackFor = {SQLException.class})
+    public Response<Building> getOne(String uid){
+        Optional<Building> exist = this.buildingRepository.findById(uid);
+        if(exist.isPresent()){
+            List<Object[]> objects = this.consumptionDataRepository.findMonthlyConsumptionByBuilding(uid);
+            List<Object> secondPositionValues = new ArrayList<>();
+            for (Object[] objArray : objects) {
+                if (objArray.length > 2) {
+                    secondPositionValues.add(objArray[2]);
+                } else {
+                    secondPositionValues.add(null);
+                }
+            }
+            double consumption = (double) secondPositionValues.get(secondPositionValues.size()-1);
+            exist.get().setTotalConsumption(consumption);
+            Building update = this.buildingRepository.saveAndFlush(exist.get());
+            return new Response<>(
+                    update,
+                    false,
+                    200,
+                    "Done!"
+            );
+        }
+        return new Response<>(
+                null,
+                true,
+                400,
+                "Error!"
         );
     }
     @Transactional(rollbackFor = {SQLException.class})

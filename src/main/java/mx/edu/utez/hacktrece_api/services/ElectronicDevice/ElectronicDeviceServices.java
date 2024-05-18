@@ -36,6 +36,26 @@ public class ElectronicDeviceServices {
                 "Done!"
         );
     }
+    @Transactional(rollbackFor = {SQLException.class})
+    public Response<String> changeStatus(String uid){
+        Optional<ElectronicDevice> exist = this.repository.findById(uid);
+        if(exist.isPresent()){
+            exist.get().setStatus(!exist.get().getStatus());
+            this.repository.saveAndFlush(exist.get());
+            return new Response<>(
+                    "Done!",
+                    false,
+                    200,
+                    "Done!"
+            );
+        }
+        return new Response<>(
+                null,
+                true,
+                400,
+                "No found!"
+        );
+    }
     @Transactional(readOnly = true)
     public Response<List<ElectronicDevice>> findAll() {
         return new Response<>(

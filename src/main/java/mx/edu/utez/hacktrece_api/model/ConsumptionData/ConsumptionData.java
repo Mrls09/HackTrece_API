@@ -21,16 +21,12 @@ public class ConsumptionData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @CreationTimestamp
     private LocalDateTime timestamp;
-
     private double consumptionValue;
-
     @ManyToOne
     @JoinColumn(name = "device_id", nullable = true)
     private ElectronicDevice device;
-
     @ManyToOne
     @JoinColumn(name = "building_id", nullable = true)
     private Building building;

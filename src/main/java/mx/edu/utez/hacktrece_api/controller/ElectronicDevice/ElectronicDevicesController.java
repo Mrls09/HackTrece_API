@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/electronic-device")
+@RequestMapping("${apiPrefix}/electronic-device")
 @CrossOrigin(value = {"*"})
 public class ElectronicDevicesController {
     @Autowired
@@ -44,6 +44,13 @@ public class ElectronicDevicesController {
     public ResponseEntity<Response<ElectronicDevice>> deleteDevice(@PathVariable("uid") String uid) {
         return new ResponseEntity<>(
                 this.services.delete(uid),
+                HttpStatus.OK
+        );
+    }
+    @GetMapping("/status/{uid}")
+    public ResponseEntity<Response<String>> changeStatus(@PathVariable("uid") String uid){
+        return new ResponseEntity<>(
+                this.services.changeStatus(uid),
                 HttpStatus.OK
         );
     }

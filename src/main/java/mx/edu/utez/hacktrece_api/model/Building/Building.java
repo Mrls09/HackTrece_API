@@ -1,21 +1,15 @@
 package mx.edu.utez.hacktrece_api.model.Building;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mx.edu.utez.hacktrece_api.model.ConsumptionData.ConsumptionData;
-import mx.edu.utez.hacktrece_api.model.ElectronicDevice.ElectronicDevice;
 import mx.edu.utez.hacktrece_api.model.Reader.ReaderTotal;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.UUID;
 
 @Table
 @Entity

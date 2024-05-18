@@ -21,6 +21,7 @@ public class ElectronicDevicesDTO {
     private String id;
     private String name;
     private String type;
+    private Boolean status;
     private double consumption;
     private Timestamp created_at;
     private Building building;
@@ -31,6 +32,7 @@ public class ElectronicDevicesDTO {
                 getId(),
                 getName(),
                 getType(),
+                getStatus(),
                 getConsumption(),
                 getCreated_at(),
                 getBuilding(),
